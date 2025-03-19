@@ -1,40 +1,112 @@
+using System.Collections;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody _rb;
-    [SerializeField] private Transform _model;
-    [SerializeField] private float _speed = 5;
-    [SerializeField] private float _turnSpeed = 360;
-    private Vector3 _input;
+    public Transform groundCheck;
 
-    private void Update()
+    private DefaultInputActions _defaultInputActions;
+    private InputAction _moveAction;
+    private Vector3 _input;
+    private bool _isDahsing = false;
+
+    [SerializeField] private Rigidbody _rigidBody;
+    [SerializeField] private float _speed = 12f;
+    [SerializeField] private float _dashForce = 48F;
+    [SerializeField] private float _dashTime = 0.25f;
+
+    private void Awake()
     {
-        GatherInput();
-        Look();
+        _defaultInputActions = new DefaultInputActions();
+        _rigidBody = GetComponent<Rigidbody>();
+    }
+
+    private void OnEnable()
+    {
+        _moveAction = _defaultInputActions.Player.Move;
+        _defaultInputActions.Player.Move.Enable();
+
+        _defaultInputActions.Player.BasicAttack.performed += OnBasicAttack;
+        _defaultInputActions.Player.BasicAttack.Enable();
+
+        _defaultInputActions.Player.Dash.performed += OnDash;
+        _defaultInputActions.Player.Dash.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _moveAction.Disable();
+        _defaultInputActions.Player.BasicAttack.Disable();
+
+        _defaultInputActions.Player.BasicAttack.performed -= OnBasicAttack;
+        _defaultInputActions.Player.BasicAttack.Disable();
+
+        _defaultInputActions.Player.Dash.performed -= OnDash;
+        _defaultInputActions.Player.Dash.Disable();
     }
 
     private void FixedUpdate()
     {
+        GatherInput();
+        PlayerRotation();
         Move();
+       
+    }
+
+    private void OnDash(InputAction.CallbackContext context)
+    {
+        _isDahsing = true;
+        StartCoroutine(Dash());
+    }
+
+    private void OnBasicAttack(InputAction.CallbackContext context)
+    {
+
     }
 
     private void GatherInput()
     {
-        _input = new Vector3(UnityEngine.Input.GetAxisRaw("Horizontal"), 0, UnityEngine.Input.GetAxisRaw("Vertical"));
+        Vector2 moveDirection = _moveAction.ReadValue<Vector2>();
+        _input = new Vector3(moveDirection.x, 0, moveDirection.y);
+    }
+
+    private void PlayerRotation()
+    {
+        if (_input == Vector3.zero || _isDahsing) return;
+
+        var rotation = Quaternion.LookRotation(_input.ToIso(), Vector3.up);
+        transform.rotation = rotation;
     }
 
     private void Move()
     {
-        _rb.MovePosition(transform.position + _input.ToIso() * _input.normalized.magnitude * _speed * Time.deltaTime);
-    }
-    private void Look()
-    {
-        if (_input == Vector3.zero) return;
+        if (_isDahsing) return;
 
-        Quaternion rot = Quaternion.LookRotation(_input.ToIso(), Vector3.up);
-        _model.rotation = Quaternion.RotateTowards(_model.rotation, rot, _turnSpeed * Time.deltaTime);
+        if (_input == Vector3.zero)
+        {
+            _rigidBody.linearVelocity = Vector3.zero;
+            return;
+        }
+        _rigidBody.linearVelocity = _speed * (transform.forward * _input.magnitude);
+    }
+
+    private IEnumerator Dash()
+    {
+        float startTime = Time.time;
+        Vector3 fixedDir = transform.forward;
+
+        while (Time.time < startTime + _dashTime)
+        {
+            _rigidBody.linearVelocity = _dashForce * fixedDir;
+            yield return null;
+        }
+        _isDahsing = false;
     }
 }
 
