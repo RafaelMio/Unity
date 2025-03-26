@@ -15,16 +15,30 @@ public class PlayerController : MonoBehaviour
     private InputAction _moveAction;
     private Vector3 _input;
     private bool _isDahsing = false;
+    private bool _canDash = true;
+    private bool _isAttacking = false;
+    private Animator _animator;
+    private string _currentAnimation = "";
 
     [SerializeField] private Rigidbody _rigidBody;
+    [SerializeField] private Collider _currentWeaponCollider;
     [SerializeField] private float _speed = 12f;
     [SerializeField] private float _dashForce = 48F;
     [SerializeField] private float _dashTime = 0.25f;
+    [SerializeField] private float _dashCooldown = 1f;
 
     private void Awake()
     {
         _defaultInputActions = new DefaultInputActions();
         _rigidBody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        _animator.SetBool("AttackStart", _isAttacking);
     }
 
     private void OnEnable()
@@ -56,18 +70,27 @@ public class PlayerController : MonoBehaviour
         GatherInput();
         PlayerRotation();
         Move();
-       
+        if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && _animator.GetCurrentAnimatorStateInfo(0).IsName("SwordAttack1"))
+        {
+            _animator.SetBool("SwordAttack1", false);
+            _animator.SetBool("AttackStart", false);
+            DisableWeaponCollider();
+        }
     }
 
     private void OnDash(InputAction.CallbackContext context)
     {
-        _isDahsing = true;
+        if (_isDahsing || !_canDash) return;
         StartCoroutine(Dash());
     }
 
     private void OnBasicAttack(InputAction.CallbackContext context)
     {
-
+        Debug.Log("TAPER");
+        EnableWeaponCollider();
+        _isAttacking = true;
+        _animator.SetBool("AttackStart", _isAttacking);
+        _animator.SetBool("SwordAttack1", true);
     }
 
     private void GatherInput()
@@ -90,23 +113,34 @@ public class PlayerController : MonoBehaviour
 
         if (_input == Vector3.zero)
         {
+            _animator.SetFloat("RunningSpeed", 0);
             _rigidBody.linearVelocity = Vector3.zero;
             return;
         }
+        _animator.SetFloat("RunningSpeed", 1);
         _rigidBody.linearVelocity = _speed * (transform.forward * _input.magnitude);
+    }
+
+    private void EnableWeaponCollider()
+    {
+        _currentWeaponCollider.enabled = true;
+    }
+
+    private void DisableWeaponCollider()
+    {
+        _currentWeaponCollider.enabled = false;
     }
 
     private IEnumerator Dash()
     {
         float startTime = Time.time;
-        Vector3 fixedDir = transform.forward;
-
-        while (Time.time < startTime + _dashTime)
-        {
-            _rigidBody.linearVelocity = _dashForce * fixedDir;
-            yield return null;
-        }
+        _isDahsing = true;
+        _canDash = false;
+        _rigidBody.linearVelocity = _dashForce * this.transform.forward;
+        yield return new WaitForSeconds(_dashTime);
         _isDahsing = false;
+        yield return new WaitForSeconds(_dashCooldown);
+        _canDash = true;
     }
 }
 

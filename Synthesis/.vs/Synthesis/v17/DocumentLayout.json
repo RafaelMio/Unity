@@ -5,6 +5,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{083C2D2C-00F9-2CF8-7F52-38A2421A2ECD}|Assembly-CSharp.csproj|c:\\users\\raf\\desktop\\dev\\unity\\synthesis\\unity\\synthesis\\assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{083C2D2C-00F9-2CF8-7F52-38A2421A2ECD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{083C2D2C-00F9-2CF8-7F52-38A2421A2ECD}|Assembly-CSharp.csproj|C:\\Users\\Raf\\Desktop\\Dev\\Unity\\Synthesis\\Unity\\Synthesis\\assets\\scripts\\weapon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{083C2D2C-00F9-2CF8-7F52-38A2421A2ECD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\weapon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{083C2D2C-00F9-2CF8-7F52-38A2421A2ECD}|Assembly-CSharp.csproj|C:\\Users\\Raf\\Desktop\\Dev\\Unity\\Synthesis\\Unity\\Synthesis\\assets\\scripts\\healthsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{083C2D2C-00F9-2CF8-7F52-38A2421A2ECD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\healthsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +22,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "HealthSystem.cs",
+              "DocumentMoniker": "C:\\Users\\Raf\\Desktop\\Dev\\Unity\\Synthesis\\Unity\\Synthesis\\Assets\\Scripts\\HealthSystem.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\HealthSystem.cs",
+              "ToolTip": "C:\\Users\\Raf\\Desktop\\Dev\\Unity\\Synthesis\\Unity\\Synthesis\\Assets\\Scripts\\HealthSystem.cs",
+              "RelativeToolTip": "Assets\\Scripts\\HealthSystem.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-23T17:04:19.34Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Weapon.cs",
+              "DocumentMoniker": "C:\\Users\\Raf\\Desktop\\Dev\\Unity\\Synthesis\\Unity\\Synthesis\\Assets\\Scripts\\Weapon.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Weapon.cs",
+              "ToolTip": "C:\\Users\\Raf\\Desktop\\Dev\\Unity\\Synthesis\\Unity\\Synthesis\\Assets\\Scripts\\Weapon.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Weapon.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-23T17:02:18.772Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -24,7 +57,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerController.cs",
               "ToolTip": "C:\\Users\\Raf\\Desktop\\Dev\\Unity\\Synthesis\\Unity\\Synthesis\\Assets\\Scripts\\PlayerController.cs",
               "RelativeToolTip": "Assets\\Scripts\\PlayerController.cs",
-              "ViewState": "AQIAAEAAAAAAAAAAAAAcwFAAAAAwAAAA",
+              "ViewState": "AQIAADIAAAAAAAAAAAAqwE4AAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-18T12:59:55.553Z",
               "EditorCaption": ""
